@@ -1,0 +1,61 @@
+#!/data/data/com.termux/files/usr/bin/bash
+red='\e[91m'
+blue='\e[96m'
+green='\e[92m'
+r='\e[0m'
+export black="\e[91m"
+export cyan="\e[1;36m"
+export purple="\e[1;35m"
+export yellow="\e[1;33m"
+export white="\e[1;37m"
+
+# COLORES OSCUROS
+
+export dblack="\e[0;30m"
+export dblue="\e[0;34m"
+export dgreen="\e[0;32m"
+export dcyan="\e[0;36m"
+export dred="\e[0;31m"
+export dpurple="\e[0;35m"
+export dyellow="\e[0;33m"
+export dwhite="\e[0;37m"
+
+# COLORES DE FONDO
+
+export bblack=$(setterm -background black)
+export bred=$(setterm -background blue)
+export bgreen=$(setterm -background green)
+export bcyan=$(setterm -background cyan)
+#export bred=$(setterm -background red)
+export byellow=$(setterm -background yellow)
+export bwhite=$(setterm -background white)
+clear
+echo -e "${white}${bwhite}${black}    MADE BY Retired64 <-YouTube!   ${bblack}${white}"
+# Mostrar un mensaje de bienvenida
+echo -e "${green}Bienvenido a Path External${r}"
+
+# Solicitar la ruta de la memoria externa, la configuración de Wine y el nombre de la nueva carpeta
+read -p $'\e[96mIngresa Ruta de Tu Memoria: \e[0m' external
+read -p $'\e[96mIngresa tu wine: \e[0m' wine
+read -p $'\e[96mIngresa Nombre de Tu Nueva Carpeta: \e[0m' name
+
+# Validar que la ruta de la memoria externa exista
+if [ ! -d "$external" ]; then
+    echo -e "${red}Error: La ruta de la memoria externa no existe.${r}"
+    exit 1
+fi
+
+# Validar que la configuración de Wine sea válida (puedes agregar más validaciones según tus necesidades)
+if [ -z "$wine" ]; then
+    echo -e "${red}Error: La configuración de Wine no puede estar vacía.${r}"
+    exit 1
+fi
+
+# Validar que el nombre de la carpeta no esté vacío
+if [ -z "$name" ]; then
+    echo -e "${red}Error: El nombre de la nueva carpeta no puede estar vacío.${r}"
+    exit 1
+fi
+
+# Crear un enlace simbólico desde la memoria externa a la ubicación específica de Wine
+ln -s "$external" "$PREFIX/glibc/$wine/.wine/drive_c/$name"
